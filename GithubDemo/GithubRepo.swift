@@ -58,8 +58,10 @@ class GithubRepo: CustomStringConvertible {
         let params = queryParamsWithSettings(settings);
         
         manager.get(reposUrl, parameters: params, success: { (operation ,responseObject) -> Void in
-            if let results = responseObject["items"] as? NSArray {
+            if let response = responseObject as? NSDictionary, let results = response["items"] as? NSArray {
                 var repos: [GithubRepo] = []
+                
+                
                 for result in results as! [NSDictionary] {
                     repos.append(GithubRepo(jsonResult: result))
                 }
